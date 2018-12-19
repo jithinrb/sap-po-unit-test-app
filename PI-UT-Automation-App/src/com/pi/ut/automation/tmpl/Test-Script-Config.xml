@@ -1,0 +1,46 @@
+<Test-Script>
+	<!--  Test-Setup : All initialisations/pre processing to be defined here -->
+	<Test-Setup>
+		<!--  Logger Configuration  -->
+		<LoggerService file="./POUnitTestAutomationApp.log" severity="INFO"/>
+			
+		<!--  Define all the servers involved in this test run here  -->
+		<Servers>
+			<Server id="msgSrc" name="XX" hostName="XX" port="" userName="XX" password="XX"/>
+			<Server id="msgTarget" name="XX"  hostName="XX" port="59000" userName="XX" password="XX"/>
+		</Servers>
+		
+		<!--  Define Test Data setup  -->
+		<Test-Data useServer="msgSrc">
+			<MessageSearchCriteria>
+				<SenderInterface name="MBGMCR.MBGMCR03" namespace="urn:sap-com:document:sap:idoc:messages" component="XX" party=""/>
+				<ReceiverInterface name="" namespace="" component="XX" party=""/>
+				<!--  DateTime Format : YYYY-MM-DDTHH:MM:SS.nnn+HH:MM -->
+				<DateTimeFrom>2018-12-01T00:00:00.000+00:00</DateTimeFrom>
+				<DateTimeTo>2018-12-18T00:00:00.000+00:00</DateTimeTo>
+				<!--ID>606ae785-f72f-11e8-bce3-000035f44f5e</ID -->
+				<MaxResults>20</MaxResults>				
+			</MessageSearchCriteria>
+			<Before-Map-Payload version="0" type="STAGE" cleanDir="true" saveTo="XX"/>
+			<After-Map-Payload  version="0" type="LOG" cleanDir="true" saveTo="XX"/>
+		</Test-Data>
+	</Test-Setup>
+	<!--  Test-Execute : Execution Task -->
+	<Test-Execute useServer="msgTarget">
+		<PushService channel="XX:XX:XX"  authHeader="">
+			<Sender component="XX" party=""/>
+			<Receiver component="" party=""/>
+			<!-- Additional Dynamic Configuration attributes -->
+			<DynamicConfiguration name="UT_REF" namespace="http://sap.com/xi/XI/System/TUT" value="TUT_10-DEC-18"/>
+			<!-- Pre-Processor class="com.pi.ut.automation.tasks.plugins.PayloadTransformerPlugin">
+				<param name="xslFileName" value="XX" />
+			</Pre-Processor--> 
+		</PushService>
+		<ResultPollService pollInterval="10000"  maxPollCycles="10" downloadResult="true">
+			<After-Map-Payload  version="0" type="LOG" cleanDir="true" saveTo="XX"/>
+		</ResultPollService>
+	</Test-Execute>
+	<!--  Test-Report : Task to generate execution report -->
+	<Test-Report saveTo="XX" cleanDir="true" 
+				 comparePayload="true"  launchProgram="C:\Program Files (x86)\Mozilla Firefox\firefox.exe file:///%s"/>
+</Test-Script>
